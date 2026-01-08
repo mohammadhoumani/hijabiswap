@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "20772120284",
+    "project_id": "hijabiswap-988c8",
+    "storage_bucket": "hijabiswap-988c8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:20772120284:android:c385be5cf9d2a9e2e6b619",
+        "android_client_info": {
+          "package_name": "com.example.hijabiswap"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAm28ipiArZlqm2jTM9fe2Wf87izc6lNGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
