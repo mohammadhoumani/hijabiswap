@@ -182,17 +182,6 @@ class HomeController extends GetxController {
     required String id,
     required String message,
   }) async {
-    if (message.trim().isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Message cannot be empty',
-        snackPosition: SnackPosition.TOP,
-        duration: Duration(seconds: 3),
-        backgroundColor: AppColors.primary,
-        colorText: AppColors.white,
-      );
-      return;
-    }
     try {
       requestLoading.value = true;
       await _productService.requestProduct(id: id, message: message);

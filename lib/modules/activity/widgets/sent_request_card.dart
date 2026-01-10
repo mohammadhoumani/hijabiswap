@@ -237,41 +237,43 @@ class SentRequestCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(height: SizeUtils.scaleY(6)),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: SizeUtils.scaleX(10),
-                          vertical: SizeUtils.scaleY(8),
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.peach.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(
-                            SizeUtils.scaleY(8),
+                      if (request.message != null &&
+                          request.message!.isNotEmpty)
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: SizeUtils.scaleX(10),
+                            vertical: SizeUtils.scaleY(8),
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.peach.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(
+                              SizeUtils.scaleY(8),
+                            ),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              FaIcon(
+                                FontAwesomeIcons.message,
+                                size: SizeUtils.scaleY(11),
+                                color: AppColors.primary,
+                              ),
+                              SizedBox(width: SizeUtils.scaleX(6)),
+                              Expanded(
+                                child: Text(
+                                  request.message!,
+                                  style: GoogleFonts.inter(
+                                    fontSize: SizeUtils.scaleY(12),
+                                    color: AppColors.secondary,
+                                    height: 1.3,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FaIcon(
-                              FontAwesomeIcons.message,
-                              size: SizeUtils.scaleY(11),
-                              color: AppColors.primary,
-                            ),
-                            SizedBox(width: SizeUtils.scaleX(6)),
-                            Expanded(
-                              child: Text(
-                                request.message,
-                                style: GoogleFonts.inter(
-                                  fontSize: SizeUtils.scaleY(12),
-                                  color: AppColors.secondary,
-                                  height: 1.3,
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),

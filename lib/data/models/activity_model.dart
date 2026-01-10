@@ -37,7 +37,7 @@ class ActivityRequest {
   final PersonRef ownerId;
   final ActivityItem? itemId;
   final String status;
-  final String message;
+  final String? message;
   final DateTime requestedAt;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -61,7 +61,7 @@ class ActivityRequest {
     required this.ownerId,
     required this.itemId,
     required this.status,
-    required this.message,
+    this.message,
     required this.requestedAt,
     required this.createdAt,
     required this.updatedAt,
