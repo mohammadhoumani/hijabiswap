@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:hijabiswap/modules/profile/profile_controller.dart';
 import 'package:hijabiswap/routes/app_routes.dart';
 import 'package:hijabiswap/utils/size_utils.dart';
@@ -662,9 +663,21 @@ class ProfileView extends GetView<ProfileController> {
     final postalCodeController = TextEditingController(
       text: (addr?['postalCode'] as String?) ?? '',
     );
-    final countryController = TextEditingController(
-      text: (addr?['country'] as String?) ?? '',
-    );
+
+    // Reactive country selection
+    final selectedCountry = Rxn<Country>();
+    final countryError = RxnString();
+    final savedCountryName = (addr?['country'] as String?)?.trim() ?? '';
+
+    // Pre-select country if previously saved
+    if (savedCountryName.isNotEmpty) {
+      try {
+        final countries = CountryService().getAll();
+        selectedCountry.value = countries.firstWhereOrNull(
+          (c) => c.name.toLowerCase() == savedCountryName.toLowerCase(),
+        );
+      } catch (_) {}
+    }
 
     Get.dialog(
       AlertDialog(
@@ -792,36 +805,125 @@ class ProfileView extends GetView<ProfileController> {
                               : null,
                 ),
                 SizedBox(height: SizeUtils.scaleY(8)),
-                TextFormField(
-                  controller: countryController,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: InputDecoration(
-                    labelText: 'Country',
-                    isDense: true,
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: SizeUtils.scaleX(12),
-                      vertical: SizeUtils.scaleY(10),
-                    ),
-                    prefixIcon: Icon(
-                      Icons.public_outlined,
-                      size: SizeUtils.scaleX(18),
-                    ),
-                    prefixIconConstraints: BoxConstraints(
-                      minWidth: SizeUtils.scaleX(40),
-                      minHeight: SizeUtils.scaleY(32),
-                    ),
-                    filled: true,
-                    fillColor: theme.colorScheme.surfaceContainerHighest
-                        .withOpacity(0.5),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(SizeUtils.scaleX(8)),
-                    ),
+                // Country Picker Dropdown
+                Obx(
+                  () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          showCountryPicker(
+                            context: context,
+                            showPhoneCode: false,
+                            countryListTheme: CountryListThemeData(
+                              backgroundColor: theme.colorScheme.onPrimary,
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(SizeUtils.scaleX(16)),
+                              ),
+                              searchTextStyle: GoogleFonts.inter(
+                                fontSize: SizeUtils.scaleY(14),
+                                color: theme.colorScheme.onSurface,
+                              ),
+                              textStyle: GoogleFonts.inter(
+                                fontSize: SizeUtils.scaleY(14),
+                                color: theme.colorScheme.onSurface,
+                              ),
+                              inputDecoration: InputDecoration(
+                                hintText: 'Search country',
+                                prefixIcon: Icon(
+                                  Icons.search,
+                                  color: theme.colorScheme.primary,
+                                ),
+                                filled: true,
+                                fillColor: theme
+                                    .colorScheme
+                                    .surfaceContainerHighest
+                                    .withOpacity(0.5),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    SizeUtils.scaleX(8),
+                                  ),
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                            ),
+                            onSelect: (Country country) {
+                              selectedCountry.value = country;
+                              countryError.value = null;
+                            },
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(
+                          SizeUtils.scaleX(8),
+                        ),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: SizeUtils.scaleX(12),
+                            vertical: SizeUtils.scaleY(14),
+                          ),
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.surfaceContainerHighest
+                                .withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(
+                              SizeUtils.scaleX(8),
+                            ),
+                            border: Border.all(
+                              color:
+                                  countryError.value != null
+                                      ? theme.colorScheme.error
+                                      : theme.colorScheme.outline.withOpacity(
+                                        0.5,
+                                      ),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.public_outlined,
+                                size: SizeUtils.scaleX(18),
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                              SizedBox(width: SizeUtils.scaleX(12)),
+                              Expanded(
+                                child: Text(
+                                  selectedCountry.value != null
+                                      ? '${selectedCountry.value!.flagEmoji}  ${selectedCountry.value!.name}'
+                                      : 'Select Country',
+                                  style: GoogleFonts.inter(
+                                    fontSize: SizeUtils.scaleY(14),
+                                    fontWeight: FontWeight.w500,
+                                    color:
+                                        selectedCountry.value != null
+                                            ? theme.colorScheme.onSurface
+                                            : theme.colorScheme.onSurface
+                                                .withOpacity(0.6),
+                                  ),
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_drop_down,
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      if (countryError.value != null)
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: SizeUtils.scaleY(6),
+                            left: SizeUtils.scaleX(12),
+                          ),
+                          child: Text(
+                            countryError.value!,
+                            style: GoogleFonts.inter(
+                              fontSize: SizeUtils.scaleY(11),
+                              color: theme.colorScheme.error,
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
-                  validator:
-                      (v) =>
-                          (v == null || v.trim().isEmpty)
-                              ? 'Country is required'
-                              : null,
                 ),
               ],
             ),
@@ -862,12 +964,19 @@ class ProfileView extends GetView<ProfileController> {
                       ? null
                       : () async {
                         final valid = formKey.currentState?.validate() ?? false;
-                        if (!valid) return;
+
+                        // Validate country selection
+                        if (selectedCountry.value == null) {
+                          countryError.value = 'Country is required';
+                        }
+
+                        if (!valid || selectedCountry.value == null) return;
+
                         await controller.updateShippingAddress(
                           street: streetController.text.trim(),
                           city: cityController.text.trim(),
                           postalCode: postalCodeController.text.trim(),
-                          country: countryController.text.trim(),
+                          country: selectedCountry.value!.name,
                         );
                         Get.back();
                       },

@@ -27,7 +27,10 @@ Map<String, dynamic> _$ProductsResponseToJson(ProductsResponse instance) =>
 
 Product _$ProductFromJson(Map<String, dynamic> json) => Product(
   id: json['_id'] as String,
-  userId: ProductUser.fromJson(json['userId'] as Map<String, dynamic>),
+  userId:
+      json['userId'] == null
+          ? null
+          : ProductUser.fromJson(json['userId'] as Map<String, dynamic>),
   namePk: json['name_pk'] as String,
   size: json['size'] as String,
   type: json['type'] as String,
@@ -52,7 +55,7 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
   '_id': instance.id,
-  'userId': instance.userId.toJson(),
+  'userId': instance.userId?.toJson(),
   'name_pk': instance.namePk,
   'size': instance.size,
   'type': instance.type,
@@ -96,7 +99,7 @@ Map<String, dynamic> _$ProductUserToJson(ProductUser instance) =>
       '_id': instance.id,
       'name': instance.name,
       'city': instance.city,
-      'ratings': instance.ratings,
+      'ratings': instance.ratings?.map((e) => e.toJson()).toList(),
       'averageRating': instance.averageRating,
     };
 

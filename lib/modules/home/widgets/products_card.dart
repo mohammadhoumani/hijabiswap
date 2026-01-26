@@ -264,7 +264,7 @@ class _ProductsCardState extends State<ProductsCard> {
                         fit: BoxFit.scaleDown,
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          widget.product.userId.city,
+                          widget.product.userId?.city ?? 'Unknown',
                           style: GoogleFonts.poppins(
                             color: themeData.colorScheme.primary,
                             fontSize: SizeUtils.scaleY(14),

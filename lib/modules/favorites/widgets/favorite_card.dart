@@ -355,7 +355,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
                     SizedBox(width: SizeUtils.scaleX(4)),
                     Expanded(
                       child: Text(
-                        widget.product.userId.city,
+                        widget.product.userId?.city ?? 'Unknown',
                         style: GoogleFonts.poppins(
                           color: themeData.colorScheme.primary,
                           fontSize: SizeUtils.scaleY(12),

@@ -557,7 +557,7 @@ class _ProductInfoSheetState extends State<ProductInfoSheet> {
           /// Owner
           _inlineInfo(
             icon: Icons.person_outline,
-            text: widget.product.userId.name,
+            text: widget.product.userId?.name ?? 'Unknown',
           ),
 
           /// Divider
@@ -573,11 +573,11 @@ class _ProductInfoSheetState extends State<ProductInfoSheet> {
           /// Location
           _inlineInfo(
             icon: Icons.location_on_outlined,
-            text: widget.product.userId.city,
+            text: widget.product.userId?.city ?? 'Unknown',
           ),
 
           /// Divider
-          if (widget.product.userId.averageRating != null)
+          if (widget.product.userId?.averageRating != null)
             Padding(
               padding: EdgeInsets.symmetric(horizontal: SizeUtils.scaleX(12)),
               child: Container(
@@ -588,10 +588,10 @@ class _ProductInfoSheetState extends State<ProductInfoSheet> {
             ),
 
           /// Average Rating
-          if (widget.product.userId.averageRating != null)
+          if (widget.product.userId?.averageRating != null)
             _inlineInfo(
               icon: Icons.star_rounded,
-              text: widget.product.userId.averageRating!.toStringAsFixed(1),
+              text: widget.product.userId!.averageRating!.toStringAsFixed(1),
             ),
         ],
       ),

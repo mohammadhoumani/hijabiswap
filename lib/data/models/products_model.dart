@@ -25,7 +25,7 @@ class Product {
   @JsonKey(name: '_id')
   final String id;
 
-  final ProductUser userId;
+  final ProductUser? userId;
 
   @JsonKey(name: 'name_pk')
   final String namePk;
@@ -51,7 +51,7 @@ class Product {
 
   Product({
     required this.id,
-    required this.userId,
+    this.userId,
     required this.namePk,
     required this.size,
     required this.type,

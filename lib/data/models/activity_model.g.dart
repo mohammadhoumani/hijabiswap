@@ -37,7 +37,7 @@ ActivityRequest _$ActivityRequestFromJson(Map<String, dynamic> json) =>
               ? null
               : ActivityItem.fromJson(json['itemId'] as Map<String, dynamic>),
       status: json['status'] as String,
-      message: json['message'] as String,
+      message: json['message'] as String?,
       requestedAt: DateTime.parse(json['requestedAt'] as String),
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
