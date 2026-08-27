@@ -30,8 +30,8 @@ Map<String, dynamic> _$ActivityResponseToJson(ActivityResponse instance) =>
 ActivityRequest _$ActivityRequestFromJson(Map<String, dynamic> json) =>
     ActivityRequest(
       id: json['_id'] as String,
-      userId: PersonRef.fromDynamic(json['userId']),
-      ownerId: PersonRef.fromDynamic(json['ownerId']),
+      userId: PersonRef.fromDynamicNullable(json['userId']),
+      ownerId: PersonRef.fromDynamicNullable(json['ownerId']),
       itemId:
           json['itemId'] == null
               ? null
@@ -72,8 +72,8 @@ Map<String, dynamic> _$ActivityRequestToJson(
   ActivityRequest instance,
 ) => <String, dynamic>{
   '_id': instance.id,
-  'userId': PersonRef.toDynamic(instance.userId),
-  'ownerId': PersonRef.toDynamic(instance.ownerId),
+  'userId': PersonRef.toDynamicNullable(instance.userId),
+  'ownerId': PersonRef.toDynamicNullable(instance.ownerId),
   'itemId': instance.itemId?.toJson(),
   'status': instance.status,
   'message': instance.message,

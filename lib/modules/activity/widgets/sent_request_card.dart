@@ -36,8 +36,8 @@ class SentRequestCard extends StatelessWidget {
         DateTime.now().difference(request.updatedAt).inHours;
     final canConfirm = isAccepted && hoursSinceUpdate < 24;
 
-    final ownerName = request.ownerId.name ?? 'Owner';
-    final ownerCity = request.ownerId.city ?? '-';
+    final ownerName = request.ownerId?.name ?? 'Owner';
+    final ownerCity = request.ownerId?.city ?? '-';
 
     return Container(
       margin: EdgeInsets.symmetric(

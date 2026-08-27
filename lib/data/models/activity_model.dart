@@ -30,11 +30,11 @@ class ActivityRequest {
   @JsonKey(name: '_id')
   final String id;
 
-  @JsonKey(fromJson: PersonRef.fromDynamic, toJson: PersonRef.toDynamic)
-  final PersonRef userId;
+  @JsonKey(fromJson: PersonRef.fromDynamicNullable, toJson: PersonRef.toDynamicNullable)
+  final PersonRef? userId;
 
-  @JsonKey(fromJson: PersonRef.fromDynamic, toJson: PersonRef.toDynamic)
-  final PersonRef ownerId;
+  @JsonKey(fromJson: PersonRef.fromDynamicNullable, toJson: PersonRef.toDynamicNullable)
+  final PersonRef? ownerId;
   final ActivityItem? itemId;
   final String status;
   final String? message;
@@ -57,8 +57,8 @@ class ActivityRequest {
 
   ActivityRequest({
     required this.id,
-    required this.userId,
-    required this.ownerId,
+    this.userId,
+    this.ownerId,
     required this.itemId,
     required this.status,
     this.message,
@@ -118,6 +118,18 @@ class PersonRef {
       if (ref.city != null) 'city': ref.city,
       if (ref.emailIsConfirm != null) 'emailIsConfirm': ref.emailIsConfirm,
     };
+  }
+
+  /// Nullable version that handles null input gracefully
+  static PersonRef? fromDynamicNullable(dynamic value) {
+    if (value == null) return null;
+    return fromDynamic(value);
+  }
+
+  /// Nullable version for serialization
+  static dynamic toDynamicNullable(PersonRef? ref) {
+    if (ref == null) return null;
+    return toDynamic(ref);
   }
 }
 

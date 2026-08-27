@@ -33,6 +33,10 @@ class ReceivedRequestCard extends StatelessWidget {
     final isRejected = status.startsWith('reject');
     final isCancelled = status.startsWith('cancel');
 
+    // Handle null user data with fallbacks
+    final userName = request.userId?.name ?? 'Unknown';
+    final userCity = request.userId?.city ?? 'Unknown';
+
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: SizeUtils.scaleX(16),
@@ -62,9 +66,7 @@ class ReceivedRequestCard extends StatelessWidget {
                   radius: SizeUtils.scaleY(24),
                   backgroundColor: AppColors.peach,
                   child: Text(
-                    request.userId.name?.isNotEmpty == true
-                        ? request.userId.name![0].toUpperCase()
-                        : '?',
+                    userName.isNotEmpty ? userName[0].toUpperCase() : '?',
                     style: GoogleFonts.poppins(
                       fontSize: SizeUtils.scaleY(18),
                       fontWeight: FontWeight.w600,
@@ -79,7 +81,7 @@ class ReceivedRequestCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        request.userId.name ?? "Unknown",
+                        userName,
                         style: GoogleFonts.poppins(
                           fontSize: SizeUtils.scaleY(15),
                           fontWeight: FontWeight.w600,
@@ -96,7 +98,7 @@ class ReceivedRequestCard extends StatelessWidget {
                           ),
                           SizedBox(width: SizeUtils.scaleX(4)),
                           Text(
-                            request.userId.city ?? "Unknown",
+                            userCity,
                             style: GoogleFonts.inter(
                               fontSize: SizeUtils.scaleY(12),
                               color: AppColors.darkGrey,

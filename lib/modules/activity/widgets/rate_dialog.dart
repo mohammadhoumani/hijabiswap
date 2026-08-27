@@ -127,8 +127,8 @@ class _RateDialogState extends State<RateDialog> {
                             radius: SizeUtils.scaleY(20),
                             backgroundColor: AppColors.peach,
                             child: Text(
-                              widget.request.ownerId.name?.isNotEmpty == true
-                                  ? widget.request.ownerId.name![0]
+                              widget.request.ownerId?.name?.isNotEmpty == true
+                                  ? widget.request.ownerId!.name![0]
                                       .toUpperCase()
                                   : '?',
                               style: GoogleFonts.poppins(
@@ -144,7 +144,7 @@ class _RateDialogState extends State<RateDialog> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Rating ${widget.request.ownerId.name ?? 'User'}',
+                                  'Rating ${widget.request.ownerId?.name ?? 'User'}',
                                   style: GoogleFonts.poppins(
                                     fontSize: SizeUtils.scaleY(13),
                                     fontWeight: FontWeight.w600,
